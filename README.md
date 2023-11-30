@@ -92,3 +92,11 @@ networks:
 ### track sentinel log
 
     docker compose logs redis-sentinel1
+
+
+### sentinel commads
+
+    INFO REPLICATION
+
+    SENTINEL get-master-addr-by-name mymaster
+
