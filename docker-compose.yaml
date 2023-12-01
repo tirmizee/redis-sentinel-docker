@@ -3,7 +3,7 @@ version: '3.7'
 services:
   redis-master:
     image: redis
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass redispassword
     ports:
       - "6379:6379"
     networks:
@@ -12,7 +12,7 @@ services:
 
   redis-replica1:
     image: redis
-    command: redis-server --appendonly yes --slaveof redis-master 6379  --slave-priority 0
+    command: redis-server --appendonly yes --slaveof redis-master 6379 --requirepass redispassword
     ports:
       - "6380:6379"
     networks:
@@ -23,7 +23,7 @@ services:
 
   redis-replica2:
     image: redis
-    command: redis-server --appendonly yes --slaveof redis-master 6379
+    command: redis-server --appendonly yes --slaveof redis-master 6379 --requirepass redispassword
     ports:
       - "6381:6379"
     networks:
@@ -64,6 +64,28 @@ services:
     networks:
       redis-net:
         ipv4_address: 172.20.0.7
+
+  redis-replica3:
+    image: redis
+    command: redis-server --appendonly yes --slaveof redis-replica1 6379  --slave-priority 0
+    ports:
+      - "6382:6379"
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.8
+    depends_on:
+      - redis-master
+
+  redis-replica4:
+    image: redis
+    command: redis-server --appendonly yes --slaveof redis-replica2 6379  --slave-priority 0
+    ports:
+      - "6383:6379"
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.9
+    depends_on:
+      - redis-master
 
 networks:
   redis-net:
