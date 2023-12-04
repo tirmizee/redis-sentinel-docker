@@ -1,6 +1,17 @@
 version: '3.7'
 
 services:
+
+  app:
+    image: spring-sentinel
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.10
+    depends_on:
+      - redis-sentinel1
+      - redis-sentinel2
+      - redis-sentinel3
+
   redis-master:
     image: redis
     command: redis-server --appendonly yes --requirepass redispassword
