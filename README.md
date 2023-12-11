@@ -1,6 +1,6 @@
 # redis-sentinel-docker
 
-### docker-compose 
+### docker-compose with no redis password
 
 ```yaml
 
